@@ -1,0 +1,30 @@
+version: '3.7'
+
+networks:
+  change-me.com:
+    external: false
+    name: change-me.com
+
+services:
+  app:
+    build: .
+    init: true
+    networks:
+      - change-me.com
+    volumes:
+      - .:/usr/local/change-me/app:delegated
+      - /usr/local/change-me/app/node_modules
+
+  proxy:
+    image: openresty/openresty:1.15.8.3-alpine-fat
+    restart: always
+    networks:
+      - change-me.com
+    ports:
+      - '80:80'
+      - '443:443'
+      - '3000:3000'
+    volumes:
+      - ./localhost.change-me.com+3.pem:/usr/local/openresty/nginx/conf/cert.pem
+      - ./localhost.change-me.com+3-key.pem:/usr/local/openresty/nginx/conf/key.pem
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf

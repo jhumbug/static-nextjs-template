@@ -1,0 +1,5 @@
+app = "change-me-com"
+app_domain_name = "www.change-me.com"
+aws_profile = "justin"
+environment = "prod"
+repo = "https://github.com/jhumbug/change-me.com"
